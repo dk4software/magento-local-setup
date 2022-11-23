@@ -1,0 +1,8 @@
+#!/bin/bash
+set -o errexit
+
+USERNAME=${1:-user}
+PASSWD=${1:-password}
+
+sh -c "echo -n '$USERNAME:' >> /etc/nginx/.htpasswd"
+sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"

@@ -1,0 +1,26 @@
+#!/bin/bash
+set -o errexit
+
+DOMAIN=${1:-local-magento-test.net}
+VERSION=${2:-2.4.5-p1}
+EDITION=${3:-community}
+
+curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
+
+rm -rf .git
+
+git init
+
+git remote add origin dkdkajfkdjf
+
+git fetch origin -qqq
+
+git checkout origin/master -- local
+
+mv local/* ./
+
+rmdir local
+
+rm -rf .git
+
+bin/setuplocal "${DOMAIN}" "${VERSION}" "${EDITION}"
