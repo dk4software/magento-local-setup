@@ -3,8 +3,12 @@ set -o errexit
 
 USERNAME=${1:-user}
 
-docker-compose exec app sh <<"EOF"
-bin/setnginxpwd $USERNAME
-EOF
+docker-compose exec app sh
+
+# docker-compose exec app sh <<"EOF"
+# bin/setnginxpwd $USERNAME
+# EOF
 
 cp http-pwd/nginx/nginx.conf.sample src/nginx.conf.sample
+
+bin/restart app

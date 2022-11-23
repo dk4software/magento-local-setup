@@ -11,16 +11,18 @@ rm -rf .git
 
 git init
 
-git remote add origin dkdkajfkdjf
+git remote add origin git@github.com:dk4software/magento-local-setup.git
 
 git fetch origin -qqq
 
 git checkout origin/master -- local
 
-mv local/* ./
-
-rmdir local
+cp -r local/* ./
+mkdir letsencrypt/etc letsencrypt/lib letsencrypt/log #Empty folders to use for SSL generation
+rm -rf local
 
 rm -rf .git
 
-bin/setuplocal "${DOMAIN}" "${VERSION}" "${EDITION}"
+bin/download "${VERSION}" "${EDITION}" \
+   && bin/setup "${DOMAIN}" \
+   && bin/setuplocal
