@@ -1,15 +1,6 @@
 #!/bin/bash
 set -o errexit
 
-rm -rf .git
-
-DOMAIN=${1:-local-magento-test.net}
-VERSION=${2:-2.4.5-p1}
-EDITION=${3:-community}
-
-bin/download "${VERSION}" "${EDITION}" \
-  && bin/setup "${DOMAIN}"
-
 # install sample data
 bin/magento sampledata:deploy
 
