@@ -1,0 +1,49 @@
+#!/bin/sh
+
+set -o errexit
+
+source mftf/env/.env.sample
+
+bin/restart
+
+# Disable 2FA support
+bin/magento module:disable Magento_TwoFactorAuth
+
+# Additional configutrtions for MFTF.
+bin/magento config:set admin/security/admin_account_sharing 1
+
+bin/magento config:set admin/security/use_form_key 0
+
+bin/magento config:set cms/wysiwyg/enabled disabled
+
+bin/magento config:set web/seo/use_rewrites 1
+
+bin/magento config:set web/unsecure/base_url "$MAGENTO_BASE_URL"
+
+bin/magento config:set web/secure/base_url "$MAGENTO_BASE_URL"
+
+bin/magento config:set web/secure/use_in_adminhtml 0
+
+bin/magento cache:clean config full_page
+
+bin/fixowns
+bin/fixperms
+
+#uncomment the config for MFTF CLI support
+line='location ~* ^/dev/tests/acceptance/utils($|/) {'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='root $MAGE_ROOT;'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='location ~ ^/dev/tests/acceptance/utils/command.php {'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='fastcgi_pass   fastcgi_backend;'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='fastcgi_index  command.php;'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='include        fastcgi_params;'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='#}'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='#}'

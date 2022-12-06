@@ -1,6 +1,6 @@
 #! /bin/bash
 
-DOMAIN=${1:-demo-stripe-magento.net}
+DOMAIN=${1:-local-magento-test.net}
 EMAIL=${2:-demo-mail@stripe.com}
 
 ROOTFOLDER="$(readlink -f ./)"

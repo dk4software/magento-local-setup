@@ -3,12 +3,19 @@ set -o errexit
 
 USERNAME=${1:-user}
 
-docker-compose exec app sh
+docker-compose exec app bin/setnginxpwd $USERNAME
 
 # docker-compose exec app sh <<"EOF"
 # bin/setnginxpwd $USERNAME
 # EOF
 
-cp http-pwd/nginx/nginx.conf.sample src/nginx.conf.sample
+#uncomment the htpasswd line for enforcing password
+line='auth_basic "Restricted Content";'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+line='auth_basic_user_file /etc/nginx/.htpasswd;'
+sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
 
 bin/restart app
+
+bin/fixowns
+bin/fixperms
