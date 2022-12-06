@@ -1,10 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 set -o errexit
 
 source mftf/env/.env.sample
-
-bin/restart
 
 # Disable 2FA support
 bin/magento module:disable Magento_TwoFactorAuth
@@ -30,20 +28,14 @@ bin/fixowns
 bin/fixperms
 
 #uncomment the config for MFTF CLI support
-line='location ~* ^/dev/tests/acceptance/utils($|/) {'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='root $MAGE_ROOT;'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='location ~ ^/dev/tests/acceptance/utils/command.php {'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='fastcgi_pass   fastcgi_backend;'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='fastcgi_index  command.php;'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='include        fastcgi_params;'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='#}'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='#}'
+sed -i "s/#mftf#//g" nginx/nginx.conf.sample
+
+#uncomment config to enable insecure access
+sed -i "s/#mftf#//g" nginx/default.conf
+sed -i "s/return 301/#return 301/g" nginx/default.conf
+
+bin/startMFTFServer app
+
+bin/mftf build:project
+
+bin/mftf doctor

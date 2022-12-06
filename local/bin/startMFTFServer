@@ -5,4 +5,4 @@ DOCKER_HOST_IP="$(docker run --rm alpine ip route | awk 'NR==1 {print $3}')"
 
 export DOCKER_HOST_IP
 
-bin/restart
+bin/restart "$@"

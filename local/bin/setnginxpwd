@@ -10,10 +10,7 @@ docker-compose exec app bin/setnginxpwd $USERNAME
 # EOF
 
 #uncomment the htpasswd line for enforcing password
-line='auth_basic "Restricted Content";'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
-line='auth_basic_user_file /etc/nginx/.htpasswd;'
-sed -i "/^#$line/ c$line" nginx/nginx.conf.sample
+sed -i "s/#htpwd#//g" nginx/nginx.conf.sample
 
 bin/restart app
 

@@ -1,16 +1,12 @@
 #! /bin/bash
 
+DOMAIN=${1:-local-magento-test.net}
+
 #comment the local certificate
-line='ssl_certificate /etc/nginx/certs/nginx.crt;'
-sed -i "/^$line/ c#$line" nginx/default.conf
-line='ssl_certificate_key /etc/nginx/certs/nginx.key;'
-sed -i "/^$line/ c#$line" nginx/default.conf
+sed -i "s/  ssl_certificate/ #ssl_certificate/g" nginx/default.conf
 
 #uncomment the generated certificate
-line='#ssl_certificate /var/www/letsencrypt/live/local-magento-test.net/fullchain.pem;'
-sed -i "/^#$line/ c$line" nginx/default.conf
-line='#ssl_certificate_key /var/www/letsencrypt/live/local-magento-test.net/privkey.pem;'
-sed -i "/^#$line/ c$line" nginx/default.conf
+sed -i "s/#uncomment#//g" nginx/default.conf
 
 #replace domain name
-#TBD
+sed -i "s/local-magento-test.net/${DOMAIN}/g" nginx/default.conf
