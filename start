@@ -4,7 +4,6 @@ set -o errexit
 DOMAIN=${1:-local-magento-test.net}
 VERSION=${2:-2.4.5-p1}
 EDITION=${3:-community}
-BRANCH=${4:-master}
 
 curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
 
@@ -14,16 +13,13 @@ git init
 
 git remote add origin git@github.com:dk4software/magento-local-setup.git
 
-git fetch origin "${BRANCH}" -qqq
+git fetch origin setup -qqq
 
-git checkout origin/"${BRANCH}" -- local
+git checkout origin/setup -- local
 
 cp -r local/* ./
 mkdir letsencrypt/etc letsencrypt/lib letsencrypt/log #Empty folders to use for SSL generation
 rm -rf local
-
-#create empty folders for generate SSL
-#mkdir letsencrypt/etc/ letsencrypt/lib letsencrypt/log
 
 rm -rf .git
 
