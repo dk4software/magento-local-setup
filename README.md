@@ -3,7 +3,7 @@
 ## Installation of Magento with Sample data
 
 - Run the command:
-`curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.5-p1 community`
+`curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/mftf/start | bash -s -- local-magento-test.net 2.4.5-p1 community mftf`
 
 ## Generate SSL Certificates
 
