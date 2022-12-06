@@ -25,4 +25,4 @@ rm -rf .git
 
 bin/download "${VERSION}" "${EDITION}" \
    && bin/setup "${DOMAIN}" \
-   && bin/setuplocal.sh
+   && bin/setuplocal
