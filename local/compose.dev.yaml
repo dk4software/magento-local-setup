@@ -15,7 +15,7 @@ services:
       - ./mftf/env/.credentials.sample:/var/www/html/dev/tests/acceptance/.credentials:cached
     extra_hosts: &appextrahosts
       # Selenium support, replace "magento.test" with URL of your site
-      - "integration-tests.loc:${DOCKER_HOST_IP:-172.17.0.1}"
+      - "${APP_HOST:-integration-tests.loc}:${APP_HOST_IP:-172.17.0.1}"
 
   phpfpm:
     volumes: *appvolumes

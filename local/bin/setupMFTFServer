@@ -36,6 +36,13 @@ sed -i "s/return 301/#return 301/g" nginx/default.conf
 
 bin/startMFTFServer app
 
+DOMAIN="$(basename $MAGENTO_BASE_URL)"
+
+if ! grep -q "$DOMAIN" /etc/hosts; then
+    echo "Your system password is needed to add an entry to /etc/hosts..."
+    echo "127.0.0.1 ::1 $DOMAIN" | sudo tee -a /etc/hosts
+fi
+
 bin/mftf build:project
 
 bin/mftf doctor
