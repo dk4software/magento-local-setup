@@ -15,9 +15,9 @@ git init -qqq
 
 git remote add origin https://github.com/dk4software/magento-local-setup
 
-git fetch origin setup -qqq
+git fetch origin automate -qqq
 
-git checkout origin/setup -- local
+git checkout origin/automate -- local
 
 cp -r local/* ./
 mkdir letsencrypt/etc letsencrypt/lib letsencrypt/log #Empty folders to use for SSL generation

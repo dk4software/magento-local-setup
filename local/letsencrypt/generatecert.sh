@@ -1,5 +1,7 @@
 #! /bin/bash
 
+set -o errexit
+
 DOMAIN=${1:-local-magento-test.net}
 EMAIL=${2:-test-email@test.com}
 

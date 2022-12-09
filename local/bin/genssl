@@ -1,0 +1,36 @@
+#! /bin/bash
+
+set -o errexit
+
+if [ -z "$1" ] || [ -z "$2" ]; then
+    echo "Usage: bin/genssl <domain name> <email>"
+    exit
+fi
+
+#Stop the main docker containers
+bin/stop
+
+#clear already existing generated cert files
+echo "Need sudo permission to remove generated cert test files."
+sudo rm -rf letsencrypt/etc/*
+
+cd ./letsencrypt
+
+#Bring up the temporary Nginx docker
+docker-compose up -d
+
+./generatecert.sh "$1" "$2"
+
+docker-compose stop
+
+cd ..
+
+bin/start
+
+#fix permissions
+bin/fixowns
+bin/fixperms
+
+bin/setssl "$1"
+
+echo "SSL certificates generated successfully!!"
