@@ -1,9 +1,13 @@
 #!/bin/bash
 set -o errexit
 
-USERNAME=${1:-user}
+if [ -z "$1" ]; then
+    echo "Usage: bin/setnginxpwd <user name>"
+    return
+fi
 
-docker-compose exec app bin/setnginxpwd $USERNAME
+
+docker-compose exec app bin/setnginxpwd "$1"
 
 #uncomment the htpasswd line for enforcing password
 sed -i "s/#htpwd#//g" nginx/nginx.conf.sample
