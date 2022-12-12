@@ -5,15 +5,17 @@ DOMAIN=${1:-local-magento-test.net}
 VERSION=${2:-2.4.5-p1}
 EDITION=${3:-community}
 
+rm -rf .git
+
 curl -s https://raw.githubusercontent.com/markshust/docker-magento/master/lib/template | bash
 
 rm -rf .git
 
-git init
+git init -qqq
 
-git remote add origin git@github.com:dk4software/magento-local-setup.git
+git remote add origin https://github.com/dk4software/magento-local-setup
 
-git fetch origin -qqq
+git fetch origin master -qqq
 
 git checkout origin/master -- local
 

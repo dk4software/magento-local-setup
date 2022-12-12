@@ -1,7 +1,9 @@
 #! /bin/bash
 
-DOMAIN=${1:-demo-stripe-magento.net}
-EMAIL=${2:-demo-mail@stripe.com}
+set -o errexit
+
+DOMAIN=${1:-local-magento-test.net}
+EMAIL=${2:-test-email@test.com}
 
 ROOTFOLDER="$(readlink -f ./)"
 

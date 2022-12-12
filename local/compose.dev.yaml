@@ -3,12 +3,26 @@ version: "3"
 services:
   app:
     volumes: &appvolumes
-      - ./src/nginx.conf.sample:/var/www/html/nginx.conf:cached
       - ./src:/var/www/html:cached
       - ./letsencrypt/etc:/var/www/letsencrypt:cached
+      - ./nginx/nginx.conf.sample:/var/www/html/nginx.conf:cached
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:cached
       - ./http-pwd/etc/.htpasswd:/etc/nginx/.htpasswd:cached
       - ./http-pwd/bin/setnginxpwd:/var/www/html/bin/setnginxpwd:cached
 
+      # mftf env variables
+      - ./mftf/env/.env.sample:/var/www/html/dev/tests/acceptance/.env:cached
+      - ./mftf/env/.credentials.sample:/var/www/html/dev/tests/acceptance/.credentials:cached
+    extra_hosts: &appextrahosts
+      # Selenium support, replace "magento.test" with URL of your site
+      - "${APP_HOST:-local-magento-test.net}:${APP_HOST_IP:-172.17.0.1}"
+
   phpfpm:
     volumes: *appvolumes
+    extra_hosts: *appextrahosts
+
+  selenium:
+      image: selenium/standalone-chrome-debug:3.8.1
+      ports:
+        - "4444:4444"
+      extra_hosts: *appextrahosts

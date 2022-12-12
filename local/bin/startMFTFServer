@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source mftf/env/.env.sample
+
+# docker host IP variable to be used in docker file.
+APP_HOST_IP="$(docker run --rm alpine ip route | awk 'NR==1 {print $3}')"
+export APP_HOST_IP
+
+APP_HOST="$(basename $MAGENTO_BASE_URL)"
+export APP_HOST
+
+bin/restart "$@"

@@ -1,6 +1,8 @@
 #! /bin/bash
 
-DOMAIN=${1:-demo-stripe-magento.net}
+set -o errexit
+
+DOMAIN=${1:-local-magento-test.net}
 
 ROOTFOLDER="$(readlink -f ./)"
 

@@ -1,27 +1,27 @@
 # Setup of Magento
 
-## Installation of Magento with Sample data
+## Requirements
 
-- Run the command:
-`curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.5-p1 community`
+- Same as [https://github.com/markshust/docker-magento#prerequisites](https://github.com/markshust/docker-magento#prerequisites)
+- **Make sure that your github account has your machine's ssh key.**
 
-## Generate SSL Certificates
+## Installation of Magento with Sample data and disable 2FA
 
-- Stop the main server docker instances: `bin/stop`
-- Go to letsencrypt folder: `cd letsencrypt/`
-- Bring up the temp nginx server for generating SSL: `docker-compose up -d`
-- Test the SSL generation: `./testgeneratecert.sh <domain name>`
-- If test generation is success, clear all test generated files: `sudo rm -rf etc/*`
-- Generate the actual SSL certificates: `./generatecert.sh <domain name> <email>`
-- If generation is successful bring down the temp Nginx server: `docker-compose stop`
-- Edit the nginx configuration in nginx/default.conf, comment the self signed certificate, uncomment the SSL certificate and rename the domain name in the certificate path.
-- Start the main server instances: `bin/start`
-- Fix permission issues: `bin/fixowns && bin/fixperms`
-- Restart app server: `bin/restart app`
+- Create a folder which will be the docker project root.
+- Run the command: `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- <domain> <version> <edition>`
 
-## Set Password for Nginx
+E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.5-p1 community`
 
-- Run the command: `bin/setnginxpwd`
-- In the new prompt, run the command: `bin/setnginxpwd <username>`
-- Provide password and confirmation on prompting.
-- Exit the commandline: `exit`
+This will install the following:
+
+- Setup docker using [https://github.com/markshust/docker-magento](https://github.com/markshust/docker-magento)
+- Install Magento sample data.
+- Disable 2FA after installing the module: [https://github.com/markshust/magento2-module-disabletwofactorauth](https://github.com/markshust/magento2-module-disabletwofactorauth)
+- Create an admin user with details in [local/mftf/env/.env.sample](local/mftf/env/.env.sample)
+
+## After installation of Magento with sample data, you can do any of the below tasks
+
+- Setup MFTF:`bin/setupMFTFServer`. If needed, update the information in [local/mftf/env/.env.sample](local/mftf/env/.env.sample). This will be used for setting up MFTF. `bin/mftf doctor` will be executed in the end. You will see if there are any issues. You can now start generating and running tests using bin/mftf.
+- Test generation of SSL Certificates (**only for Magento server**): `bin/testgenssl <domain name>`
+- Generate SSL Certificates (**only for Magento server**): `bin/genssl <domain name> <email>`
+- Set Password for Nginx: `bin/setnginxpwd <user name>`. Provide password and confirmation password on prompting.

@@ -1,0 +1,48 @@
+#!/bin/bash
+
+set -o errexit
+
+source mftf/env/.env.sample
+
+# Disable 2FA support
+bin/clinotty bin/magento module:disable Magento_TwoFactorAuth
+
+# Additional configutrtions for MFTF.
+bin/clinotty bin/magento config:set admin/security/admin_account_sharing 1
+
+bin/clinotty bin/magento config:set admin/security/use_form_key 0
+
+bin/clinotty bin/magento config:set cms/wysiwyg/enabled disabled
+
+bin/clinotty bin/magento config:set web/seo/use_rewrites 1
+
+bin/clinotty bin/magento config:set web/unsecure/base_url "$MAGENTO_BASE_URL"
+
+bin/clinotty bin/magento config:set web/secure/base_url "$MAGENTO_BASE_URL"
+
+bin/clinotty bin/magento config:set web/secure/use_in_adminhtml 0
+
+bin/clinotty bin/magento cache:clean config full_page
+
+bin/fixowns
+bin/fixperms
+
+#uncomment the config for MFTF CLI support
+sed -i "s/#mftf#//g" nginx/nginx.conf.sample
+
+#uncomment config to enable insecure access
+sed -i "s/#mftf#//g" nginx/default.conf
+sed -i "s/return 301/#return 301/g" nginx/default.conf
+
+bin/startMFTFServer app
+
+DOMAIN="$(basename $MAGENTO_BASE_URL)"
+
+if ! grep -q "$DOMAIN" /etc/hosts; then
+    echo "Your system password is needed to add an entry to /etc/hosts..."
+    echo "127.0.0.1 ::1 $DOMAIN" | sudo tee -a /etc/hosts
+fi
+
+bin/mftf build:project
+
+bin/mftf doctor

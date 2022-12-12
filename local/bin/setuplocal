@@ -1,19 +1,26 @@
 #!/bin/bash
 set -o errexit
 
+source mftf/env/.env.sample
+
 # install sample data
-bin/magento sampledata:deploy
+bin/clinotty bin/magento sampledata:deploy
 
-bin/magento module:enable --all #sometimes sample data modules don't get enabled.
+bin/clinotty bin/magento module:enable --all #sometimes sample data modules don't get enabled.
 
-bin/composer require markshust/magento2-module-disabletwofactorauth
+bin/clinotty composer require markshust/magento2-module-disabletwofactorauth
 
-bin/magento module:enable MarkShust_DisableTwoFactorAuth
+bin/clinotty bin/magento module:enable MarkShust_DisableTwoFactorAuth
 
-bin/magento setup:upgrade
+bin/clinotty bin/magento setup:upgrade
 
-bin/magento config:set twofactorauth/general/enable 0
+bin/clinotty bin/magento config:set twofactorauth/general/enable 0
 
-bin/magento setup:upgrade && bin/magento setup:di:compile && bin/magento setup:static-content:deploy -f && bin/magento indexer:reindex && bin/magento cache:flush && bin/magento cache:clean
+bin/clinotty bin/magento setup:upgrade \
+ && bin/clinotty bin/magento setup:di:compile \
+ && bin/clinotty bin/magento setup:static-content:deploy -f \
+ && bin/clinotty bin/magento indexer:reindex \
+ && bin/clinotty bin/magento cache:flush \
+ && bin/clinotty bin/magento cache:clean
 
-bin/magento admin:user:create --admin-user=admin --admin-password=Hello123 --admin-email=admin@example.org --admin-firstname=Admin --admin-lastname=Admin
+bin/clinotty bin/magento admin:user:create --admin-user="$MAGENTO_ADMIN_USERNAME" --admin-password="$MAGENTO_ADMIN_PASSWORD" --admin-email=admin@example.org --admin-firstname=Admin --admin-lastname=Admin
