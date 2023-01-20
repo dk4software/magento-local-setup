@@ -3,7 +3,7 @@ set -o errexit
 
 if [ -z "$1" ]; then
     echo "Usage: bin/setnginxpwd <user name>"
-    return
+    exit
 fi
 
 
