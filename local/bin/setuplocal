@@ -1,16 +1,25 @@
 #!/bin/bash
 set -o errexit
 
+echo "Setting up local magento"
+
 source mftf/env/.env.sample
 
 # install sample data
+echo "Install sample data"
+
 bin/clinotty bin/magento sampledata:deploy
 
 bin/clinotty bin/magento module:enable --all #sometimes sample data modules don't get enabled.
 
+
+echo "Install Disable 2FA"
+
 bin/clinotty composer require markshust/magento2-module-disabletwofactorauth
 
 bin/clinotty bin/magento module:enable MarkShust_DisableTwoFactorAuth
+
+echo "Building Magento"
 
 bin/clinotty bin/magento setup:upgrade
 
@@ -22,5 +31,8 @@ bin/clinotty bin/magento setup:upgrade \
  && bin/clinotty bin/magento indexer:reindex \
  && bin/clinotty bin/magento cache:flush \
  && bin/clinotty bin/magento cache:clean
+
+
+echo "Create admin acccount"
 
 bin/clinotty bin/magento admin:user:create --admin-user="$MAGENTO_ADMIN_USERNAME" --admin-password="$MAGENTO_ADMIN_PASSWORD" --admin-email=admin@example.org --admin-firstname=Admin --admin-lastname=Admin
