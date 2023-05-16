@@ -1,0 +1,25 @@
+#! /bin/bash
+
+set -o errexit
+
+#Stop the main docker containers
+bin/stop
+
+cd ./letsencrypt
+
+#Bring up the temporary Nginx docker
+docker-compose up -d
+
+./renewcert.sh
+
+docker-compose stop
+
+cd ..
+
+bin/start
+
+#fix permissions
+bin/fixowns
+bin/fixperms
+
+echo "SSL certificates renewed successfully!!"
