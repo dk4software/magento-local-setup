@@ -8,9 +8,9 @@
 ## Installation of Magento with Sample data and disable 2FA
 
 - Create a folder which will be the docker project root.
-- Run the command: `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/mage2.4.3/start | bash -s -- <domain> <version> <edition>`
+- Run the command: `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/mage2.3/start | bash -s -- <domain> <version> <edition>`
 
-E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/mage2.4.3/start | bash -s -- local-magento-test.net 2.4.3-p3 community`
+E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/mage2.3/start | bash -s -- local-magento-test.net 2.3.7-p4 community`
 
 This will install the following:
 

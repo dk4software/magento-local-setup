@@ -11,7 +11,7 @@ rm -rf .git
 
 echo "Installing markshust docker"
 
-curl -s https://raw.githubusercontent.com/dk4software/docker-magento/mage2.4.3/lib/template | bash
+curl -s https://raw.githubusercontent.com/dk4software/docker-magento/mage2.3/lib/template | bash
 
 rm -rf .git
 
@@ -19,9 +19,9 @@ git init -qqq
 
 git remote add origin https://github.com/dk4software/magento-local-setup
 
-git fetch origin mage2.4.3 -qqq
+git fetch origin mage2.3 -qqq
 
-git checkout origin/mage2.4.3 -- local
+git checkout origin/mage2.3 -- local
 
 cp -r local/* ./
 rm -rf local

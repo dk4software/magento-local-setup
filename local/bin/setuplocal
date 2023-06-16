@@ -12,13 +12,6 @@ bin/clinotty bin/magento sampledata:deploy
 
 bin/clinotty bin/magento module:enable --all #sometimes sample data modules don't get enabled.
 
-
-echo "Install Disable 2FA"
-
-bin/clinotty composer require markshust/magento2-module-disabletwofactorauth
-
-bin/clinotty bin/magento module:enable MarkShust_DisableTwoFactorAuth
-
 echo "Building Magento"
 
 bin/clinotty bin/magento setup:upgrade
