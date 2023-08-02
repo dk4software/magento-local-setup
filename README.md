@@ -3,14 +3,13 @@
 ## Requirements
 
 - Same as [https://github.com/markshust/docker-magento#prerequisites](https://github.com/markshust/docker-magento#prerequisites)
-- **Make sure that your github account has your machine's ssh key.**
 
 ## Installation of Magento with Sample data and disable 2FA
 
 - Create a folder which will be the docker project root.
 - Run the command: `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- <domain> <version> <edition>`
 
-E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.5-p1 community`
+E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.6-p1 community`
 
 This will install the following:
 
