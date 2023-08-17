@@ -26,6 +26,15 @@ bin/clinotty bin/magento setup:upgrade \
  && bin/clinotty bin/magento cache:clean
 
 
-echo "Create admin acccount"
+#prompt to create admin user and delete the default one.
+read -r -n 1 -p "Create admin acccount? (y/n). This will delete the default one." CREATE_ADMIN
 
-bin/clinotty bin/magento admin:user:create --admin-user="$MAGENTO_ADMIN_USERNAME" --admin-password="$MAGENTO_ADMIN_PASSWORD" --admin-email=admin@example.org --admin-firstname=Admin --admin-lastname=Admin
+echo #new line
+
+if [ -n "$CREATE_ADMIN" ] && [ "${CREATE_ADMIN^}" == "Y" ]; then
+
+    bin/magento admin:user:create
+
+    #delete the default user john.smith (to avoid security issue)
+    echo "delete from admin_user where user_id = 1" | bin/mysql
+fi
