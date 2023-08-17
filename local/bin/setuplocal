@@ -1,6 +1,9 @@
 #!/bin/bash
 set -o errexit
 
+ADMIN_USER=${1}
+ADMIN_PWD=${2}
+
 echo "Setting up local magento"
 
 source mftf/env/.env.sample
@@ -33,15 +36,11 @@ bin/clinotty bin/magento setup:upgrade \
  && bin/clinotty bin/magento cache:clean
 
 
-#prompt to create admin user and delete the default one.
-read -r -n 1 -p "Create admin acccount? (y/n). This will delete the default one." CREATE_ADMIN
+if [ -n "$ADMIN_USER" ] && [ -n "$ADMIN_PWD" ]; then
 
-echo #new line
-
-if [ -n "$CREATE_ADMIN" ] && [ "${CREATE_ADMIN^}" == "Y" ]; then
-
-    bin/magento admin:user:create
+    bin/clinotty bin/magento admin:user:create --admin-user="$ADMIN_USER" --admin-password="$ADMIN_PWD" --admin-email=admin@example.org --admin-firstname=Admin --admin-lastname=Admin
 
     #delete the default user john.smith (to avoid security issue)
-    echo "delete from admin_user where user_id = 1" | bin/mysql
+    bin/clinotty echo "delete from admin_user where user_id = 1" | bin/mysql
+    echo "deleted default admin user"
 fi
