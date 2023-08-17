@@ -6,6 +6,12 @@ if [ -z "$1" ]; then
     exit
 fi
 
+read -r -n 1 -p "Magento server will have restart after you set the password. Are you sure to proceed?(y/n)" PROCEED
+if [ -z "$PROCEED" ] && [ "${PROCEED^}" != "Y" ]; then
+    exit
+fi
+echo
+
 
 docker-compose exec app bin/setnginxpwd "$1"
 
