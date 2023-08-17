@@ -9,7 +9,7 @@
 - Create a folder which will be the docker project root.
 - Run the command: `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- <domain> <version> <edition>`
 
-E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.6-p1 community`
+E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.6-p2 community`
 
 This will install the following:
 
