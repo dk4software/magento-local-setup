@@ -4,6 +4,8 @@ set -o errexit
 DOMAIN=${1:-local-magento-test.net}
 VERSION=${2:-2.4.5-p2}
 EDITION=${3:-community}
+ADMIN_USER=${4}
+ADMIN_PWD=${5}
 
 echo "Starting installation..."
 
@@ -32,4 +34,4 @@ echo "Installing Magento"
 
 bin/download "${VERSION}" "${EDITION}" \
    && bin/setup "${DOMAIN}" \
-   && bin/setuplocal
+   && bin/setuplocal "$ADMIN_USER" "$ADMIN_PWD"
