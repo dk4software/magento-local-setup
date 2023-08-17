@@ -21,8 +21,8 @@ services:
     volumes: *appvolumes
     extra_hosts: *appextrahosts
 
-  selenium:
-      image: selenium/standalone-chrome-debug:3.8.1
-      ports:
-        - "4444:4444"
-      extra_hosts: *appextrahosts
+  # selenium:
+  #     image: selenium/standalone-chrome-debug:3.8.1
+  #     ports:
+  #       - "4444:4444"
+  #     extra_hosts: *appextrahosts
