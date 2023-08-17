@@ -5,6 +5,12 @@ if [ -z "$1" ]; then
     exit
 fi
 
+read -r -n 1 -p "This will stop the Magento server. Are you sure to proceed?(y/n)" PROCEED
+if [ -z "$PROCEED" ] || [ "${PROCEED^}" != "Y" ]; then
+    exit
+fi
+echo
+
 #Stop the main docker containers
 bin/stop
 

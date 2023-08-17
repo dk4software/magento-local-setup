@@ -1,15 +1,8 @@
 #! /bin/bash
 
-read -r -n 1 -p "Create admin acccount? (y/n)" CREATE_ADMIN
-
-echo #new line
-
-if [ -n "$CREATE_ADMIN" ] && [ "${CREATE_ADMIN^}" == "Y" ]; then
-    read -r -p "Enter User name:" MAGENTO_ADMIN_USERNAME
-
-    echo "$MAGENTO_ADMIN_USERNAME"
-
-    read -r -s -p "Enter Password:" MAGENTO_ADMIN_PASSWORD
-
-    echo "$MAGENTO_ADMIN_PASSWORD"
+read -r -n 1 -p "This will stop the Magento server. Are you sure to proceed?(y/n)" PROCEED
+if [ -z "$PROCEED" ] || [ "${PROCEED^}" != "Y" ]; then
+    exit
 fi
+echo
+echo "proceed"
