@@ -9,9 +9,9 @@
 - Create a folder which will be the docker project root.
 - Run the command: `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- <domain> <version> <edition> <admin user name> <admin password>`
 
-E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.6-p2 community admin password1`
+E.g. `curl -s https://raw.githubusercontent.com/dk4software/magento-local-setup/master/start | bash -s -- local-magento-test.net 2.4.7 community admin password1`
 
-admin user name and password is optional. If not provided, the default one (john.smith/password1) will be retained.
+admin user name and password is optional. If not provided, the default one (john.smith/password1) from Markshust setup will be retained.
 
 This will install the following:
 
