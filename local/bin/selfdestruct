@@ -1,0 +1,6 @@
+#! /bin/bash
+
+bin/stop
+bin/removeall
+rm -rf .*
+rm -rf *
