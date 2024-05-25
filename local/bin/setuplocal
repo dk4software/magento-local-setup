@@ -19,7 +19,8 @@ echo "Building Magento"
 
 bin/clinotty bin/magento setup:upgrade
 
-bin/clinotty bin/magento config:set twofactorauth/general/enable 0
+#don't need to disable MFA for 2.3
+# bin/clinotty bin/magento config:set twofactorauth/general/enable 0
 
 bin/clinotty bin/magento setup:upgrade \
  && bin/clinotty bin/magento setup:di:compile \
